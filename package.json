@@ -1,0 +1,15 @@
+{
+  "name": "spin-cli",
+  "version": "1.0.0",
+  "description": "This is the CLI tool to be used together with spin.",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "SPIN",
+    "CLI"
+  ],
+  "author": "Johan Ablett-Karlsson",
+  "license": "ISC"
+}
