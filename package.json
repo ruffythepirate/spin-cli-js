@@ -11,5 +11,8 @@
     "CLI"
   ],
   "author": "Johan Ablett-Karlsson",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "jest-when": "^2.7.1"
+  }
 }
