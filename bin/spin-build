@@ -1,0 +1,8 @@
+#! /usr/bin/env node
+
+const spinBuild = require('../spin-build');
+
+spinBuild.run().catch((e) => {
+    console.error(e)
+});
+

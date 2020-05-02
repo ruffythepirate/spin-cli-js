@@ -1,7 +1,15 @@
 const fsHelper = require('./common/fs-helper');
 const containerService = require('./common/container-service');
 
-function run() {
+async function run() {
+    verifyCanRun();
+
+    try {
+        await runBuild();
+    } catch (e) {
+        console.error(`Failed to run build because of ${e}`);
+        process.exit(1);
+    }
 
 }
 
@@ -12,7 +20,11 @@ function verifyCanRun() {
 }
 
 async function runBuild() {
-    await containerService.runArchetypeContainer('spin-archetype-blog', 'latest');
+    await containerService.runArchetypeContainer(
+        'spin-archetype-blog',
+        'latest',
+        console.log,
+        console.error);
 }
 
 module.exports = {

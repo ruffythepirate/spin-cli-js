@@ -1,14 +1,31 @@
 const {spawn} = require('child_process');
 
+const readline = require('readline');
+
+
 async function runArchetypeContainer(imageName, version, stdout, stderr) {
     return new Promise(((resolve, reject) => {
         const command = 'docker'
+        const dockerCommand = 'run'
         const image = `${imageName}:${version}`
-        const volumeMounts = `-v ./src:/source:Z -v ./target:/target:Z`;
+        const sourceVolumeMount = `-v ./src:/source:Z`;
+        const targetVolumeMount = `-v ./target:/target:Z`;
         const removeFlag = '--rm'
         const relativePathEnvironment = '-e RELATIVE_PATH=.'
 
-        const compileProcess = spawn(`${command} ${removeFlag} ${relativePathEnvironment} ${volumeMounts} ${image}`)
+        const compileProcess = spawn(
+            command,
+            [dockerCommand,
+                sourceVolumeMount,
+                targetVolumeMount,
+                removeFlag,
+                relativePathEnvironment,
+                image],
+            {
+                shell: true
+            }
+            );
+
         compileProcess.on('close', (code) => {
             if(code === 0) {
                 resolve();
@@ -17,12 +34,20 @@ async function runArchetypeContainer(imageName, version, stdout, stderr) {
             }
         });
 
-        compileProcess.stdout.on('data', stdout);
-        compileProcess.stderr.on('data', stderr);
+        connectOutputs(compileProcess, stdout, stderr);
     }));
+}
 
+function connectOutputs(childProcess, stdout, stderr) {
+   childProcess.stdout && createInterface(childProcess.stdout, stdout);
+   childProcess.stderr && createInterface(childProcess.stderr, stderr);
+}
 
-
+function createInterface(input, output) {
+    const rlInterface = readline.createInterface ( {
+        input: input
+    });
+    rlInterface.on ( 'line', output);
 }
 
 module.exports = {

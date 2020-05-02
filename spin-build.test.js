@@ -19,5 +19,5 @@ test('verifyCanRun when called should ensure .spin, target and src folders exist
 test('runBuild when called should start blog archetype.', async () => {
     const result = await sut.runBuild();
 
-    expect(containerService.runArchetypeContainer).toHaveBeenCalledWith('spin-archetype-blog', 'latest');
+    expect(containerService.runArchetypeContainer).toHaveBeenCalledWith('spin-archetype-blog', 'latest', console.log, console.error);
 });
