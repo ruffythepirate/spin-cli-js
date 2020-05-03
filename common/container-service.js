@@ -1,7 +1,16 @@
-const {spawn} = require('child_process');
+const {spawn, spawnSync} = require('child_process');
 
 const readline = require('readline');
 
+function runAttachedContainer(imageName, version, dockerArgs, commandArgs) {
+    spawnSync('docker', ['run',
+        ...dockerArgs,
+        `${imageName}:${version}`,
+            ...commandArgs
+        ], {
+        shell: true
+    });
+}
 
 async function runArchetypeContainer(imageName, version, stdout, stderr) {
     return new Promise(((resolve, reject) => {
@@ -51,5 +60,6 @@ function createInterface(input, output) {
 }
 
 module.exports = {
-    runArchetypeContainer
+    runArchetypeContainer,
+    runAttachedContainer
 };

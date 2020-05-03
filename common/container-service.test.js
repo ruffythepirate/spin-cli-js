@@ -1,6 +1,6 @@
 const sut = require('./container-service');
 
-const {spawn} = require('child_process');
+const {spawn, spawnSync} = require('child_process');
 
 jest.mock('child_process');
 
@@ -62,9 +62,23 @@ test('runArchetypeContainer when process exits with status code != 0 should reje
     await expect(result).rejects.toBeTruthy()
 });
 
+test('runAttachedContainer when called should invoke docker with correct arguments', () => {
+    const commandArgs = ['commandLineArgs'];
+    const dockerArgs = ['dockerArgs'];
+    const imageName = 'someImage';
+    const version = 'latest';
+    const result = sut.runAttachedContainer(imageName, version, dockerArgs, commandArgs);
+
+    const expectedArgs = ['run']
+        .concat(dockerArgs)
+        .concat([`${imageName}:${version}`])
+        .concat(commandArgs)
+
+    expect(spawnSync).toHaveBeenCalledWith('docker', expectedArgs, {shell: true});
+});
+
 function runAndGetCommandAndArguments() {
     sut.runArchetypeContainer(imageName, version, console.log, console.error);
     const commandAndArguments = spawn.mock.calls[0];
     return commandAndArguments;
 }
-
