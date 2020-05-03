@@ -10,6 +10,7 @@ const version = 'latest';
 let spawnResponseMock;
 
 beforeEach(() => {
+    jest.clearAllMocks();
     spawnResponseMock = {
         on: jest.fn(),
     }
@@ -71,10 +72,11 @@ test('runAttachedContainer when called should invoke docker with correct argumen
 
     const expectedArgs = ['run']
         .concat(dockerArgs)
+        .concat(['--rm', '-it'])
         .concat([`${imageName}:${version}`])
         .concat(commandArgs)
 
-    expect(spawnSync).toHaveBeenCalledWith('docker', expectedArgs, {shell: true});
+    expect(spawn).toHaveBeenCalledWith('docker', expectedArgs, {shell: true, stdio: ['inherit', 'inherit', 'inherit']});
 });
 
 function runAndGetCommandAndArguments() {

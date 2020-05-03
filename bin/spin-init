@@ -1,0 +1,8 @@
+#! /usr/bin/env node
+
+const spinInit = require('../spin-init');
+
+spinInit.run().catch((e) => {
+    console.error(e)
+});
+

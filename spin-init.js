@@ -5,7 +5,7 @@ const processService = require('./common/process-service');
 
 function verifyCanRun() {
     fs.existsSync('./.spin') && logAndExit('Found .spin folder, spin has already been initialized!', 0)
-    fs.readdirSync('.') && logAndExit('Current folder is not empty, only allowed to run init in empty folders', 1)
+    fs.readdirSync('.').length && logAndExit('Current folder is not empty, only allowed to run init in empty folders', 1)
 }
 
 function invokeTemplate() {
@@ -17,7 +17,16 @@ function logAndExit(message, code) {
     processService.exit(code)
 }
 
+function run() {
+    return new Promise(((resolve, reject) => {
+        verifyCanRun();
+        invokeTemplate();
+        resolve();
+    }));
+}
+
 module.exports = {
     verifyCanRun,
-    invokeTemplate
+    invokeTemplate,
+    run
 };

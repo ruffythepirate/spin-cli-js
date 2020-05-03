@@ -11,6 +11,9 @@ jest.mock('./common/process-service')
 jest.mock('./common/giter8-service')
 jest.mock('fs')
 
+beforeEach(() => {
+    fs.readdirSync.mockReturnValue([])
+})
 
 test('verifyCanRun when .spin dir exists should exit with code 0', () => {
 

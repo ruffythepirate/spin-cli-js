@@ -3,13 +3,20 @@ const {spawn, spawnSync} = require('child_process');
 const readline = require('readline');
 
 function runAttachedContainer(imageName, version, dockerArgs, commandArgs) {
-    spawnSync('docker', ['run',
+
+    const docker = 'docker';
+    const args = ['run',
         ...dockerArgs,
+        '--rm', '-it',
         `${imageName}:${version}`,
-            ...commandArgs
-        ], {
-        shell: true
+        ...commandArgs
+    ];
+    const dockerProcess = spawn(docker, args, {
+        shell: true,
+        stdio: ['inherit', 'inherit','inherit']
     });
+
+    connectOutputs(dockerProcess, console.log, console.error)
 }
 
 async function runArchetypeContainer(imageName, version, stdout, stderr) {

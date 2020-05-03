@@ -6,7 +6,7 @@ jest.mock('./container-service');
 
 test('invokeTemplate when called should run attached container', () => {
     const templateName = 'my template';
-    const result = sut.invokeTemplateSync(templateName);
+    sut.invokeTemplateSync(templateName);
     const volumeMount = '-v .:/g8out:Z';
-    expect(containerService.runAttachedContainer).toHaveBeenCalledWith('moredip/giter8', 'latest', [volumeMount], [templateName]);
+    expect(containerService.runAttachedContainer).toHaveBeenCalledWith('avastsoftware/g8', 'latest', [volumeMount], [templateName]);
 });
