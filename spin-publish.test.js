@@ -55,9 +55,7 @@ test('verifyCanRun when called should verify bucket with domain name', () => {
 test('syncDirectory when called should invoke sync in AWS Service.', async () => {
     const bucket = domainName;
     const localPath = './target';
-
     await sut.syncDirectory();
-
     expect(awsService.syncDirToS3Bucket).toHaveBeenCalledWith(localPath, bucket);
 });
 
