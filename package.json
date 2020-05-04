@@ -14,5 +14,9 @@
   "license": "ISC",
   "devDependencies": {
     "jest-when": "^2.7.1"
+  },
+  "dependencies": {
+    "s3": "^4.4.0",
+    "toml": "^3.0.0"
   }
 }
