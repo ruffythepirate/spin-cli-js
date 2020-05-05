@@ -1,10 +1,18 @@
-const sut = require('./spin-publish')
+const aws = require('aws-sdk');
+jest.mock('aws-sdk');
+const s3ClientMock = {
+    listBuckets: jest.fn()
+}
+aws.S3.mockReturnValue(s3ClientMock);
+const awsService = require('./common/awsService');
+jest.mock('./common/awsService')
+
 const processService = require('./common/process-service');
 const fs = require('fs');
-const awsService = require('./common/awsService');
-
 jest.mock('fs');
-jest.mock('./common/awsService')
+
+
+const sut = require('./spin-publish')
 
 const domainName = "example.com"
 beforeEach(() => {
@@ -49,7 +57,7 @@ test('verifyCanRun when called should verify bucket with domain name', () => {
     fs.readFileSync.mockReturnValue(`domainName="${domainName}"`)
     const result = sut.verifyCanRun();
 
-    expect(awsService.verifyBucket).toHaveBeenCalledWith(domainName);
+    expect(awsService.hasBucket).toHaveBeenCalledWith(domainName);
 });
 
 test('syncDirectory when called should invoke sync in AWS Service.', async () => {

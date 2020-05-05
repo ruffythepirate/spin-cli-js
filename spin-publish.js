@@ -11,7 +11,7 @@ function verifyCanRun() {
     const config = loadConfig();
 
     // check bucket exists.
-    awsService.verifyBucket(config.domainName);
+    awsService.hasBucket(config.domainName);
 
     // check distribution exists.
     awsService.hasDistribution(config.domainName)
@@ -29,7 +29,7 @@ async function syncDirectory() {
 function loadConfig() {
     fs.existsSync('./.spin/config') || logAndThrowExitError('Could not find .spin directory. Can only publish from directory where spin init was run!', 1);
     try {
-        const content = fs.readFileSync('./.spin/config.toml', {encoding: 'utf-8'})
+    const content = fs.readFileSync('./.spin/config.toml', {encoding: 'utf-8'})
         return toml.parse(content);
     } catch(e) {
         logAndThrowExitError(`Could not parse .spin/config.toml!, ${e}`, 1)
