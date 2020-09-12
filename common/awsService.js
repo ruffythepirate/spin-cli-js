@@ -1,11 +1,10 @@
-const aws = require('aws-sdk');
 
 const callerReferenceService  = require('./callerReferenceService');
 
-
 // const s3HighLevel = require('s3');
+const aws = require('aws-sdk');
 
-const s3Client = new aws.S3({
+const s3Client =  new aws.S3({
     apiVersion: "2006-03-01"
 })
 // s3HighLevel.Client = s3Client;
