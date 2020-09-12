@@ -1,3 +1,7 @@
+# DEPRECATED
+
+This project is deprecated, instead the preferred tool will be `spin-cli-py`.
+
 # Spin CLI
 
 Spin stands for *Static Page INcubator*. It is a system that allows users to write content in whatever format they want, and then compile that content into html, js, css files. 
